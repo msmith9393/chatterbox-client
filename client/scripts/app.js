@@ -1,7 +1,8 @@
 var app = {};
 app.server = 'https://api.parse.com/1/classes/messages';
 app.init = function() {
-  app.handleSubmit();
+  // app.handleSubmit();
+  app.autoRefresh();
 };
 
 //Send posts to other users
@@ -45,10 +46,7 @@ app.fetch = function() {
           text: res[i].text,
           roomname: res[i].roomname
         };
-        // debugger;
-        console.log($('#chat-room').text());
-        console.log(message.roomname);
-        if ($('#chat-room').text() === message.roomname || $('#chat-room').text() === 'all rooms') {
+        if ($('#chat-room').text() === message.roomname || $('#chat-room').text() === 'all-rooms') {
           app.addMessage(message);
         }
       }
@@ -97,7 +95,6 @@ app.handleSubmit = function() {
   if (roomname === 'all-rooms') {
     roomname = 'lobby';
   }
-  console.log(roomname);
   var message = {
     username: userName,
     text: text,
@@ -106,7 +103,7 @@ app.handleSubmit = function() {
   app.send(message);
 };
 
-var autoRefresh = setInterval(function() {
+setInterval(function() {
   $.ajax({
     url: app.server,
     type: 'GET',
@@ -114,6 +111,7 @@ var autoRefresh = setInterval(function() {
     success: app.fetch
   });
 }, 5000);
+
 
 $(function() {
   app.$chats = $('#chats');
@@ -145,14 +143,11 @@ $(function() {
 
   $('#roomSelect').on('change', function() {
     $('#chat-room').text($(this).val());
+    var currentRoom = $('#chat-room').text();
     // empty our chat room
     app.clearMessages();
-    // stop auto refresh
-    clearInterval(autoRefresh);
     // place only messages that are from the room
     app.fetch();
 
-
   });
 });
-
