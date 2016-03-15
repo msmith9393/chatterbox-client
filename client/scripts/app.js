@@ -1,8 +1,21 @@
 var app = {};
-app.server = 'https://api.parse.com/1/classes/messages';
-app.init = function() {
+
+app.init = () => {
+  setInterval(function() {
+    $.ajax({
+      url: app.server,
+      type: 'GET',
+      dataType: 'json',
+      success: app.fetch
+    });
+  }, 5000);
+
+  //Username
+  app.server = 'https://api.parse.com/1/classes/messages';
+  app.username = window.location.search.split('username=')[1];
+  app.friends = [];
   // app.handleSubmit();
-  app.autoRefresh();
+  // app.autoRefresh();
 };
 
 //Send posts to other users
@@ -69,26 +82,36 @@ app.addMessage = function (message) {
   var $date = $('<p class="date"></p>');
   var $message = $('<p class="message"></p>');
   $userName.text(message.username);
+  // if username is in friends list
+    // add friend class to username h2
   $date.text(message.date);
   $message.text(message.text);
   $msgBox.append($userName).append($date).append($message);
   app.$chats.append($msgBox);
+  app.showFriends(message.username, function() {
+    $userName.addClass('friend');
+  });
 };
 
-app.friends = [];
-
 app.addFriend = function(userName) {
-  var index = app.friends.indexOf(userName);
-  if (index === -1) {
-    app.friends.push(userName.text());  
+  var user = userName.text();
+  if (app.friends.indexOf(user) === -1) {
+    app.friends.push(user);
   } else {
-    app.friends.splice(index, 0);
+    var index = app.friends.indexOf(user);
+    app.friends.splice(index, 1);
   }
-  userName.addClass('friend');
+  // app.showFriends(user);
+  app.fetch();
+};
+
+app.showFriends = function(username, callback) {
+  if (app.friends.indexOf(username) > -1) {
+    callback();
+  }
 };
 
 app.handleSubmit = function() {
-  var userName = window.location.search.split('username=')[1];
   var date = new Date();
   var text = $('[name="message-box"]').val();
   var roomname = $('#roomSelect').val();
@@ -96,21 +119,12 @@ app.handleSubmit = function() {
     roomname = 'lobby';
   }
   var message = {
-    username: userName,
+    username: app.username,
     text: text,
     roomname: roomname
   };
   app.send(message);
 };
-
-setInterval(function() {
-  $.ajax({
-    url: app.server,
-    type: 'GET',
-    dataType: 'json',
-    success: app.fetch
-  });
-}, 5000);
 
 
 $(function() {
@@ -151,3 +165,5 @@ $(function() {
 
   });
 });
+
+app.init();
