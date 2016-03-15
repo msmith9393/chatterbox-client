@@ -11,7 +11,6 @@
     <script src="bower_components/underscore/underscore-min.js"></script>    
     <!-- your scripts -->
     <script src="env/config.js"></script>
-    <script src="scripts/app.js"></script>
   </head>
   <body>
     <div id="main">
@@ -24,13 +23,14 @@
         <input type="text" name="add-room" placeholder="add room" />
         <input type="submit" name="add-room-btn" value="add room" />
       </form>
-      <form>
+      <form id="send">
         <input type="text" name="message-box" placeholder="enter message here"/>
-        <input type="submit" name="post-btn" value="post" />
+        <input type="submit" class="submit" name="submit" value="submit" />
       </form>
       <button class="clear-messages">refresh page</button>
 
     </div>
     <div id="chats"></div>
+    <script src="scripts/app.js"></script>
   </body>
 </html>

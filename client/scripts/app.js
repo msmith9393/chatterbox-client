@@ -1,6 +1,7 @@
 var app = {};
 app.server = 'https://api.parse.com/1/classes/messages';
 app.init = function() {
+  app.handleSubmit();
 };
 
 //Send posts to other users
@@ -60,7 +61,7 @@ app.clearMessages = function() {
 
 app.addMessage = function (message) {
   var $msgBox = $('<div class="msg-box"></div>');
-  var $userName = $('<h2 class="user-name"></h2>');
+  var $userName = $('<h2 class="username"></h2>');
   var $date = $('<p class="date"></p>');
   var $message = $('<p class="message"></p>');
   $userName.text(message.username);
@@ -70,20 +71,34 @@ app.addMessage = function (message) {
   app.$chats.append($msgBox);
 };
 
+app.friends = [];
+
+app.addFriend = function(userName) {
+  app.friends.push(userName.text());
+  userName.addClass('friend');
+};
+
+app.handleSubmit = function() {
+  var userName = window.location.search.split('username=')[1];
+  var date = new Date();
+  var text = $('[name="message-box"]').val();
+  var roomName = $('[name="room"]').val();
+  var message = {
+    text: text,
+    roomname: roomName
+  };
+  console.log(message);
+  app.send(message);
+};
+
 $(function() {
   app.$chats = $('#chats');
+  
   app.fetch();
-  $('[name="post-btn"]').on('click', function(e) {
+
+  $('#send').on('click', '.submit', function(e) {
     e.preventDefault();
-    var userName = window.location.search.split('username=')[1];
-    var date = new Date();
-    var text = $('[name="message-box"]').val();
-    var roomName = $('[name="room"]').val();
-    var message = {
-      text: text,
-      roomname: roomName
-    };
-    app.send(message);
+    app.handleSubmit();
   });
 
   $('.clear-messages').click(function(e) {
@@ -97,8 +112,9 @@ $(function() {
     app.addRoom(roomName);
   });
 
-  $('.user-name').on('click', function(e) {
-    console.log("Hello");
+  $('#chats').on('click', '.username', function(e) {
+    e.preventDefault();
+    app.addFriend($(this));
   });
 });
 
