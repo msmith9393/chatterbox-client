@@ -1,12 +1,12 @@
-var app = {
-  
-};
+var app = {};
+
 app.init = function() {
   app.fetch();
 };
 
 //Send posts to other users
 app.send = function(message) {
+  // debugger;
   $.ajax({
     'url': 'https://api.parse.com/1/classes/messages',
     'type': 'POST',
@@ -15,7 +15,8 @@ app.send = function(message) {
     'success': function(response) {
       console.log(response);
     },
-    'error': function() {
+    'error': function(data) {
+      console.log(data);
       $('#chats').text('An error has occurred');
     }
   });
@@ -53,6 +54,7 @@ app.fetch = function() {
 
 $(function() {
   var $chats = $('#chats');
+
   app.post = function (userName, date, message) {
     var $msgBox = $('<div class="msg-box"></div>');
     var $userName = $('<h2 class="user-name"></h2>');
@@ -64,8 +66,23 @@ $(function() {
     $msgBox.append($userName).append($date).append($message);
     $chats.prepend($msgBox);
   };
+
+  $('[name="submit-btn"]').click(function(e) {
+    // debugger;
+    e.preventDefault();
+    var userName = window.location.search.split('username=')[1];
+    var date = new Date();
+    var text = $('[name="message-box"]').val();
+    var roomName = $('[name="room"]').val();
+    var message = {
+      text: text,
+      roomname: roomName
+    };
+    app.send(message);
+    // post(userName, date, text);
+  });
+  // app.send();
   app.fetch();
-  
 });
 // $(function() {
 //   var $chats = $('#chats');
@@ -83,22 +100,5 @@ $(function() {
 //     $msgBox.append($userName).append($date).append($message);
 //     $chats.prepend($msgBox);
 //   };
-
-
-
-//   $('[name="submit-btn"]').click(function(e) {
-//     e.preventDefault();
-//     var userName = window.location.search.split('username=')[1];
-//     var date = new Date();
-//     var text = $('[name="message-box"]').val();
-//     var roomName = $('[name="room"]').val();
-//     var message = {
-//       username: userName,
-//       text: text,
-//       roomname: roomName
-//     };
-//     app.send(message);
-//     // post(userName, date, text);
-//   });
 
 // });
