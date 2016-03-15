@@ -17,13 +17,18 @@
     <div id="main">
       <h1>chatterbox</h1>
       <h2>room:</h2>
-      <select>
-        <option value="lobby" name="room">lobby</option>
+      <select id="roomSelect">
+        <option value="lobby" class="room">lobby</option>
       </select>
       <form>
-        <input type="text" name="message-box" placeholder="enter message here"/>
-        <input type="submit" name="submit-btn" value="post" />
+        <input type="text" name="add-room" placeholder="add room" />
+        <input type="submit" name="add-room-btn" value="add room" />
       </form>
+      <form>
+        <input type="text" name="message-box" placeholder="enter message here"/>
+        <input type="submit" name="post-btn" value="post" />
+      </form>
+      <button class="clear-messages">refresh page</button>
 
     </div>
     <div id="chats"></div>

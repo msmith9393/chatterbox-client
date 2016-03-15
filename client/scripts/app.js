@@ -37,37 +37,43 @@ app.fetch = function() {
       var userName, date, message;
       var res = data.results;
       for (var i = 0; i < res.length; i++) {
-        if (res[i].username === undefined) {
-          userName = 'anonymous';
-        } else {
-          userName = res[i].username;
-        }
-        date = res[i].createdAt;
-        message = res[i].text;
-        app.post(userName, date, message);
+        var message = {
+          username: res[i].username || 'anonymous',
+          text: res[i].text,
+          date: res[i].createdAt
+        };
+        app.addMessage(message);
       }
     }
   });
 };
 
+app.addRoom = function(roomName) {
+  var $newRoom = $('<option value="' + roomName + '" name="room"></option>').text(roomName);
+  $('#roomSelect').append($newRoom);
+};
 
-app.post = function (userName, date, message) {
+app.clearMessages = function() {
+  $('#chats').html('');
+  app.fetch();
+};
+
+app.addMessage = function (message) {
   var $msgBox = $('<div class="msg-box"></div>');
   var $userName = $('<h2 class="user-name"></h2>');
   var $date = $('<p class="date"></p>');
   var $message = $('<p class="message"></p>');
-  $userName.text(userName);
-  $date.text(date);
-  $message.text(message);
+  $userName.text(message.username);
+  $date.text(message.date);
+  $message.text(message.text);
   $msgBox.append($userName).append($date).append($message);
-  app.$chats.prepend($msgBox);
+  app.$chats.append($msgBox);
 };
-
 
 $(function() {
   app.$chats = $('#chats');
   app.fetch();
-  $('[name="submit-btn"]').on('click', function(e) {
+  $('[name="post-btn"]').on('click', function(e) {
     e.preventDefault();
     var userName = window.location.search.split('username=')[1];
     var date = new Date();
@@ -80,7 +86,20 @@ $(function() {
     app.send(message);
   });
 
+  $('.clear-messages').click(function(e) {
+    e.preventDefault();
+    app.clearMessages();
+  });
 
+  $('[name="add-room-btn"]').click(function(e) {
+    e.preventDefault();
+    var roomName = $('[name="add-room"]').val();
+    app.addRoom(roomName);
+  });
+
+  $('.user-name').on('click', function(e) {
+    console.log("Hello");
+  });
 });
 
-
+// setInterval(app.fetch, 2000);
