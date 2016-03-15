@@ -37,17 +37,20 @@ app.fetch = function() {
     success: function(data) {
       console.dir(data);
       console.log('Successful Get');
-      var userName, date, message, roomname;
       var res = data.results;
       app.clearMessages();
       for (var i = 0; i < res.length; i++) {
         var message = {
           username: res[i].username || 'anonymous',
           text: res[i].text,
-          // date: res[i].createdAt,
           roomname: res[i].roomname
         };
-        app.addMessage(message);
+        // debugger;
+        console.log($('#chat-room').text());
+        console.log(message.roomname);
+        if ($('#chat-room').text() === message.roomname || $('#chat-room').text() === 'all rooms') {
+          app.addMessage(message);
+        }
       }
     }
   });
@@ -91,6 +94,9 @@ app.handleSubmit = function() {
   var date = new Date();
   var text = $('[name="message-box"]').val();
   var roomname = $('#roomSelect').val();
+  if (roomname === 'all-rooms') {
+    roomname = 'lobby';
+  }
   console.log(roomname);
   var message = {
     username: userName,
@@ -100,7 +106,7 @@ app.handleSubmit = function() {
   app.send(message);
 };
 
-setInterval(function() {
+var autoRefresh = setInterval(function() {
   $.ajax({
     url: app.server,
     type: 'GET',
@@ -128,12 +134,25 @@ $(function() {
   $('#main').on('click', '[name="add-room-btn"]', function(e) {
     e.preventDefault();
     var roomname = $('[name="add-room"]').val();
+    $('[name="add-room"]').val('');
     app.addRoom(roomname);
   });
 
   $('#chats').on('click', '.username', function(e) {
     e.preventDefault();
     app.addFriend($(this));
+  });
+
+  $('#roomSelect').on('change', function() {
+    $('#chat-room').text($(this).val());
+    // empty our chat room
+    app.clearMessages();
+    // stop auto refresh
+    clearInterval(autoRefresh);
+    // place only messages that are from the room
+    app.fetch();
+
+
   });
 });
 

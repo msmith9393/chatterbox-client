@@ -18,6 +18,7 @@
       <h2>room:</h2>
       <form>
         <select id="roomSelect">
+          <option value="all-rooms" class="room" id="all-rooms">all rooms</option>
           <option value="lobby" class="room" id="lobby">lobby</option>
         </select>
         <input type="text" name="add-room" placeholder="add room" />
@@ -30,7 +31,11 @@
       <button class="clear-messages">refresh page</button>
 
     </div>
-    <div id="chats"></div>
+    <div>
+      <h2 id="chat-room">all rooms</h2>
+    </div>
+    <div id="chats">
+    </div>
     <script src="scripts/app.js"></script>
   </body>
 </html>
