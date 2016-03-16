@@ -72,28 +72,12 @@ form input[type=text] {
     color: #fff;
 }
 
-.chat {
-    padding: 5px;
-    margin-bottom: 5px;
-    background-color: #eee;
-}
-
-.chat .username {
+.msg-box .username {
     font-weight: 800;
 }
 
-.chat:hover {
-    background-color: #ddd;
-}
-
-.spinner {
-    float: right;
-    height: 46px;
-    margin-bottom: 5px;
-}
-
-.spinner img {
-    padding: 10px;
+.msg-box:hover {
+    background-color: #fafafa;
 }
 
 .friend {
@@ -109,6 +93,7 @@ form input[type=text] {
     font-weight: 300;
     width: 100px;
     float: right;
+    outline: none;
 }
 
 .btn-submit:hover {
@@ -137,10 +122,36 @@ form input[type=text] {
     background: rgba(0, 0, 0, 0) url(../images/arrow.svg) no-repeat 90% center;
     background-size: 15px;
     border: 0 solid #fff;
-    padding: 2px 0 2px 5px;
+    padding: 5px 0 5px 5px;
     color: #fff;
 }
 
 .drop-down:focus {
     outline: none;
+}
+
+.like-btn {
+    float: right;
+    position: relative;
+    top: 10px;
+    height: 30px;
+    width: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-shadow: none;
+    text-decoration: none;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.like-btn:focus {
+    outline: none;
+}
+
+.like-btn:hover, .liked-btn {
+    color: #29D9C2;
+    background-color: white;
+}
+
+.liked-btn {
+    border-color: #29D9C2;
 }
