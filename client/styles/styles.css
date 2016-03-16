@@ -1,18 +1,21 @@
 body {
     background: #eee;
     text-align: center;
-    padding: 0 25px;
-    font-family: arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #main, #chats {
-    width: 500px;
+    width: 650px;
     margin: auto;
     text-align: left;
     background: white;
     padding: 50px 60px;
-    border: solid #ddd;
-    border-width: 0 1px 1px 1px;
+}
+
+#main {
+    background-image: url('https://abs.twimg.com/a/1458003619/img/t1/lohp_streams_header_bg_v4.png');
+    background-size: 100%;
+    width: 100%;
 }
 
 #main h1 {
@@ -20,6 +23,7 @@ body {
     font-size: 35px;
     margin-bottom: 5px;
     padding: 5px;
+    font-weight: 600;
 }
 
 #main h1 span {
@@ -46,6 +50,11 @@ body {
     line-height: 13px;
 }
 
+#container {
+    margin: 0 auto;
+    width: 550px;
+}
+
 form {
     padding: 20px;
     padding-left: 0;
@@ -53,10 +62,14 @@ form {
 }
 
 form input[type=text] {
-    margin-right: 10px;
-    width: 70%;
+    width: 80%;
     font-size: 12px;
     padding: 5px;
+    float: left;
+}
+
+.title {
+    color: #fff;
 }
 
 .chat {
@@ -85,4 +98,49 @@ form input[type=text] {
 
 .friend {
     color: #5ea;
+}
+
+.btn-submit {
+    background-color: rgba(0, 0, 0, 0);
+    text-decoration: none;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: 300;
+    width: 100px;
+    float: right;
+}
+
+.btn-submit:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.btn-refresh {
+    float: left;
+}
+
+.text-input {
+    border: 0px;
+    border-radius: 5px;
+}
+
+.msg-box {
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 0 15px;
+    margin: 10px;
+}
+
+.drop-down {
+    width: 100px;
+    -webkit-appearance: none;
+    background: rgba(0, 0, 0, 0) url(../images/arrow.svg) no-repeat 90% center;
+    background-size: 15px;
+    border: 0 solid #fff;
+    padding: 2px 0 2px 5px;
+    color: #fff;
+}
+
+.drop-down:focus {
+    outline: none;
 }
